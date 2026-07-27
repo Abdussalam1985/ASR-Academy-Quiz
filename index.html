@@ -1,0 +1,227 @@
+C5<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASR Academy - দশমিক ভগ্নাংশ কুইজ</title>
+<style>
+    :root {
+        --deep-blue: #000050; --golden: #D4AF37; --white: #FFFFFF;
+        --deep-green: #004d40; --success: #2ecc71; --danger: #e74c3c;
+    }
+    * { box-sizing: border-box; }
+    body { background-color: var(--deep-blue); color: var(--golden); font-family: 'SolaimanLipi', Arial, sans-serif; margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .header { display: grid; grid-template-columns: 150px 1fr 150px; align-items: center; padding: 10px 30px; border-bottom: 4px solid var(--golden); background: var(--deep-green); }
+    .logo-box { display: flex; justify-content: flex-start; }
+    .logo-box img { width: 80px; border-radius: 8px; border: 2px solid var(--golden); }
+    .header-center { text-align: center; }
+    .brand-title { font-size: 2.4rem; margin: 0; color: var(--golden); line-height: 1; }
+    .class-info { font-size: 1.2rem; color: var(--white); font-weight: bold; margin-top: 5px; }
+    .hadith-box { font-size: 0.95rem; font-weight: bold; text-align: right; color: var(--golden); }
+
+    .scrolling-bar { background: var(--golden); color: var(--deep-blue); font-size: 1.3rem; font-weight: bold; padding: 5px; overflow: hidden; white-space: nowrap; border-bottom: 2px solid var(--deep-green); }
+
+    .quiz-container { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .progress { font-size: 1.2rem; color: var(--white); margin-bottom: 10px; }
+    .score-live { font-size: 1.1rem; color: var(--golden); margin-bottom: 15px; }
+    .question { font-size: 2.4rem; font-weight: bold; color: var(--white); text-align: center; margin-bottom: 30px; max-width: 900px; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 90%; max-width: 900px; }
+    .option { background: rgba(255, 255, 255, 0.1); border: 4px solid var(--golden); padding: 20px; font-size: 1.8rem; border-radius: 15px; text-align: center; cursor: pointer; color: var(--golden); transition: all 0.2s; }
+    .option:hover { background: rgba(255, 255, 255, 0.2); }
+    .option.correct { background: var(--success); color: var(--deep-blue); border-color: var(--success); }
+    .option.wrong { background: var(--danger); color: var(--white); border-color: var(--danger); }
+    .option.disabled { cursor: default; pointer-events: none; }
+
+    #explanation { background: #e0e0e0; color: #000; width: 90%; max-width: 900px; padding: 15px; border-radius: 15px; border: 4px solid var(--golden); margin-top: 20px; font-size: 1.4rem; font-weight: bold; display: none; }
+
+    .next-btn { margin-top: 25px; padding: 15px 40px; font-size: 1.4rem; font-weight: bold; background: var(--golden); color: var(--deep-blue); border: none; border-radius: 12px; cursor: pointer; display: none; }
+    .next-btn:hover { opacity: 0.9; }
+
+    .result-box { text-align: center; }
+    .result-box h2 { color: var(--white); font-size: 2.2rem; }
+    .result-box p { font-size: 1.8rem; color: var(--golden); }
+    .restart-btn { margin-top: 20px; padding: 15px 40px; font-size: 1.3rem; font-weight: bold; background: var(--golden); color: var(--deep-blue); border: none; border-radius: 12px; cursor: pointer; }
+
+    .footer { padding: 10px; background: var(--deep-green); display: flex; justify-content: center; gap: 30px; font-size: 1.1rem; font-weight: bold; }
+    .footer a { color: var(--golden); text-decoration: none; }
+
+    @media (max-width: 600px) {
+        .question { font-size: 1.5rem; }
+        .options-grid { grid-template-columns: 1fr; }
+        .option { font-size: 1.2rem; padding: 15px; }
+        .brand-title { font-size: 1.6rem; }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo-box"><img src="asracademy_logo.png" alt="Logo" onerror="this.innerHTML='[LOGO]'"></div>
+    <div class="header-center">
+        <div style="font-size: 1rem; margin-bottom: 3px;">বিসমিল্লাহির রাহমানির রাহিম</div>
+        <h1 class="brand-title">ASR Academy</h1>
+        <div class="class-info">পঞ্চম শ্রেণি | প্রাথমিক গণিত | অধ্যায় ৫ - দশমিক ভগ্নাংশ</div>
+    </div>
+    <div class="hadith-box">"নিশ্চয়ই আল্লাহ সুন্দর এবং তিনি সৌন্দর্যকে পছন্দ করেন।"</div>
+</div>
+
+<div class="scrolling-bar">
+    <marquee behavior="scroll" direction="left">স্বাগতম ASR একাডেমীতে! আজকের কুইজ পঞ্চম শ্রেণীর প্রাথমিক গণিত, অধ্যায় ৫ - দশমিক ভগ্নাংশের ওপর। পরামর্শ বা কুইজ কন্টেন্ট সম্পর্কে জানতে কল বা হোয়াটসঅ্যাপ করুন: 01622406201</marquee>
+</div>
+
+<div class="quiz-container" id="quiz-container">
+    <div class="progress" id="progress">প্রশ্ন ১ / ৫৪</div>
+    <div class="score-live" id="score-live">স্কোর: ০</div>
+    <div id="q-text" class="question"></div>
+    <div id="options-box" class="options-grid"></div>
+    <div id="explanation"></div>
+    <button class="next-btn" id="next-btn">পরবর্তী প্রশ্ন</button>
+</div>
+
+<div class="footer">
+    <a href="https://wa.me/8801622406201">🟢 হোয়াটসঅ্যাপ</a>
+    <a href="https://www.youtube.com/@asracademybd">🔴 ইউটিউব</a>
+    <a href="https://facebook.com/asracademybd">🔵 ফেসবুক</a>
+</div>
+
+<script>
+const questions = [
+{q:"নিচের কোন তিনটি ভগ্নাংশ ০.২৫ এর সমান?", opts:["৩/১২, ৬/১২, ৫/১০","১/৪, ২/৮, ৩/১২","১/২, ৪/৮, ২/৮","৫/৬, ৪/১৬, ৫/১০"], ans:1, exp:"ব্যাখ্যা: ১/৪ = ২/৮ = ৩/১২ = ০.২৫।"},
+{q:"নিশি একটি সাদা কাগজের ০.৩৫ অংশ লাল রং করল। কাগজের কত অংশ সাদা রইল?", opts:["০.৩৫","০.৫৫","০.৬৫","০.৭৫"], ans:2, exp:"ব্যাখ্যা: ১ − ০.৩৫ = ০.৬৫।"},
+{q:"৮৭ × ০.০০১ = কত?", opts:["৮.৭০","৮৭.০০","০.৮৭","০.০৮৭"], ans:3, exp:"ব্যাখ্যা: ৮৭ × ০.০০১ = ০.০৮৭।"},
+{q:"৫৭.৭ ÷ ১০ = কত?", opts:["০.৫৭৭","৫.৭৭","৫৭.৭","৫৭৭"], ans:1, exp:"ব্যাখ্যা: ১০ দ্বারা ভাগ করলে দশমিক বিন্দু একঘর বামে সরে, ফল ৫.৭৭।"},
+{q:"২৫.০৯৪ সংখ্যাটিতে ৪ এর স্থানীয় মান কত?", opts:["০.০৪","০.০৫","০.০০৪","০.০৯৪"], ans:2, exp:"ব্যাখ্যা: ৪ সহস্রাংশের ঘরে আছে, তাই স্থানীয় মান ০.০০৪।"},
+{q:"২৫.৩৪৬ সংখ্যাটিতে ৪ এর স্থানীয় মান কত?", opts:["৪ একক","৪ দশমাংশ","৪ শতাংশ","৪ সহস্রাংশ"], ans:2, exp:"ব্যাখ্যা: ৪ শতাংশের ঘরে আছে।"},
+{q:"কতগুলো ০.১ দ্বারা ৩.৫ হয়?", opts:["৩৫","৪০","৪৫","৫০"], ans:0, exp:"ব্যাখ্যা: ৩.৫ ÷ ০.১ = ৩৫।"},
+{q:"কয়টি ০.০১ দ্বারা ০.১৯ গঠন করা যায়?", opts:["১৬","১৭","১৮","১৯"], ans:3, exp:"ব্যাখ্যা: ০.১৯ ÷ ০.০১ = ১৯।"},
+{q:"২৩.২৪৭ সংখ্যাটিতে কয়টি ০.১ আছে?", opts:["৩","২","৪","৭"], ans:1, exp:"ব্যাখ্যা: দশমাংশের ঘরের অঙ্ক ২, তাই ২টি ০.১ আছে।"},
+{q:"০.২৪৫ গঠন করতে রিমা কয়টি ০.০০১ ব্যবহার করবে?", opts:["০.২৪৫","০.০০০২৪","২৪৫","২৪৬"], ans:2, exp:"ব্যাখ্যা: ০.২৪৫ ÷ ০.০০১ = ২৪৫।"},
+{q:"১ সহস্রাংশ = কত?", opts:["০.০০১","০.০১","০.১","১"], ans:0, exp:"ব্যাখ্যা: ১ সহস্রাংশ = ০.০০১।"},
+{q:"নিচের কোনটি ০.৩৫ এর সাধারণ ভগ্নাংশ?", opts:["৫/২০","৬/২০","৭/২০","৯/২০"], ans:2, exp:"ব্যাখ্যা: ৭/২০ = ০.৩৫।"},
+{q:"০.৫৬ এর সাধারণ ভগ্নাংশ নিচের কোনটি?", opts:["২৮/১০০","৫৬/৫০","৫৬/১০০","৫.৬/১০০"], ans:2, exp:"ব্যাখ্যা: ০.৫৬ = ৫৬/১০০।"},
+{q:"০.০০১ = কত?", opts:["১/১০","১/১০০","১/১০০০","১/১০০০০"], ans:2, exp:"ব্যাখ্যা: ০.০০১ = ১/১০০০।"},
+{q:"০.৩৪১ এর সাধারণ ভগ্নাংশ নিচের কোনটি?", opts:["৩৪১/১০","৩৪১/১০০","৩৪১/১০০০","৩৪১/১০০০০"], ans:2, exp:"ব্যাখ্যা: ০.৩৪১ = ৩৪১/১০০০।"},
+{q:"নিচের কোনটি ৭/১০ এর দশমিক ভগ্নাংশ?", opts:["০.৭","০.০৭","০.৭১","০.০৭১"], ans:0, exp:"ব্যাখ্যা: ৭/১০ = ০.৭।"},
+{q:"নিচের কোনটি ৭/২৫ এর দশমিক ভগ্নাংশ?", opts:["০.২৫","০.২৮","০.৩১","০.৩৪"], ans:1, exp:"ব্যাখ্যা: ৭/২৫ = ০.২৮।"},
+{q:"১/৪ এর দশমিক ভগ্নাংশ কোনটি?", opts:["০.২","০.২৫","০.৫","০.৭৫"], ans:1, exp:"ব্যাখ্যা: ১/৪ = ০.২৫।"},
+{q:"৩৭৩/৫০০০ এর দশমিক ভগ্নাংশ নিচের কোনটি?", opts:["০.৭৪৬","০.৩৭৩","০.০৩৭৩","০.০৭৪৬"], ans:3, exp:"ব্যাখ্যা: ৩৭৩ ÷ ৫০০০ = ০.০৭৪৬।"},
+{q:"৪.০৬ + ২.৯৪ = কত?", opts:["৭.০০","৬.৯৪","৬.০০","৭.০২"], ans:0, exp:"ব্যাখ্যা: ৪.০৬ + ২.৯৪ = ৭.০০।"},
+{q:"৮.২৮ + ৫.৭২ = কত?", opts:["১.৪০","১৪.০০","১৩.৫০","১৪.৮"], ans:1, exp:"ব্যাখ্যা: ৮.২৮ + ৫.৭২ = ১৪.০০।"},
+{q:"রাফান ২.৪ কেজি চাল এবং ৩.৭৫ কেজি ময়দা কিনলো। সে মোট কত কেজি পণ্য কিনলো?", opts:["৫.০০","৫.১৫","৬.৫","৬.১৫"], ans:3, exp:"ব্যাখ্যা: ২.৪ + ৩.৭৫ = ৬.১৫।"},
+{q:"৪.৮ ও ৩.৫৯ এর যোগফল কত?", opts:["৮.০০","৮.৩","৮.৩৯","৮.৪৯"], ans:2, exp:"ব্যাখ্যা: ৪.৮ + ৩.৫৯ = ৮.৩৯।"},
+{q:"৪ − ২.২৫ = কত?", opts:["১.৭৫","২.৭৫","০.৭৫","১.০৭৫"], ans:0, exp:"ব্যাখ্যা: ৪ − ২.২৫ = ১.৭৫।"},
+{q:"৩.৪১২ − ২.১৫ = ?", opts:["২.২৬২","১.৬২২","১.২৬২","১.২২৬"], ans:2, exp:"ব্যাখ্যা: ৩.৪১২ − ২.১৫ = ১.২৬২।"},
+{q:"নিপার ব্যাগের ওজন ৫.৮ কেজি এবং নিশাদের ব্যাগের ওজন ৪.৫৯ কেজি। তাদের ব্যাগের ওজনের পার্থক্য কত?", opts:["২.২১","১.২১","২.১১","১.১২"], ans:1, exp:"ব্যাখ্যা: ৫.৮ − ৪.৫৯ = ১.২১।"},
+{q:"০.৩ × ৫ = ?", opts:["০.৫","০.১৫","১.৫","৩.৫"], ans:2, exp:"ব্যাখ্যা: ০.৩ × ৫ = ১.৫।"},
+{q:"০.০০৪ × ৫ = কত?", opts:["০.২","০.০২","০.০০২","০.০০০২"], ans:1, exp:"ব্যাখ্যা: ০.০০৪ × ৫ = ০.০২।"},
+{q:"০.০৩ × ৪ = কত?", opts:["১২","০.১২","০.০১২","১.২"], ans:1, exp:"ব্যাখ্যা: ০.০৩ × ৪ = ০.১২।"},
+{q:"০.২১২ × ৭ = কত?", opts:["১.৫৮৪","২.৪৮৪","১.৪৮৪","১৪.৮৪"], ans:2, exp:"ব্যাখ্যা: ০.২১২ × ৭ = ১.৪৮৪।"},
+{q:"একটি আমের ওজন ০.৫ কেজি। এরূপ ১২টি আমের ওজন কত?", opts:["২ কেজি","৪ কেজি","৬ কেজি","৮ কেজি"], ans:2, exp:"ব্যাখ্যা: ০.৫ × ১২ = ৬ কেজি।"},
+{q:"এক ইঞ্চি সমান ২.৫৪ সেমি হলে ২ ইঞ্চি সমান কত সেমি হবে?", opts:["৬.০৮ সেমি","৫.০৮ সেমি","৪.০৮ সেমি","৩.০৮ সেমি"], ans:1, exp:"ব্যাখ্যা: ২.৫৪ × ২ = ৫.০৮ সেমি।"},
+{q:"২.৫২১ × ১০ = কত?", opts:["২৫.২১","২৫২.১","২৫২১","০.২৫২১"], ans:0, exp:"ব্যাখ্যা: ১০ দ্বারা গুণ করলে দশমিক বিন্দু একঘর ডানে সরে, ফল ২৫.২১।"},
+{q:"২.৪৫ × ১০০ = কত?", opts:["২৪৫","২৪.৫","০.২৪৫","০.০২৪৫"], ans:0, exp:"ব্যাখ্যা: ১০০ দ্বারা গুণ করলে দশমিক বিন্দু দুইঘর ডানে সরে, ফল ২৪৫।"},
+{q:"৫৬.৯ × ১০০ = কত?", opts:["৫.৬৯","৫৬৯","৫৬৯০","৫৬.৯১"], ans:2, exp:"ব্যাখ্যা: ৫৬.৯ × ১০০ = ৫৬৯০।"},
+{q:"৮৯৪.৭ কে ১০০ দ্বারা গুণ করলে গুণফল কত হবে?", opts:["০.৮৯৪৭","৮.৯৪৭","৮৯৪৭০","৮৯.৪৭"], ans:2, exp:"ব্যাখ্যা: ৮৯৪.৭ × ১০০ = ৮৯৪৭০।"},
+{q:"০.২ × ০.৭ = কত?", opts:["০.১৪","০.০১৬","১.৬","১৬.০০"], ans:0, exp:"ব্যাখ্যা: ০.২ × ০.৭ = ০.১৪।"},
+{q:"০.৬ × ০.১৩ = কত?", opts:["০.৭৪","০.৭৮","০.০৭৮","৭.৮"], ans:2, exp:"ব্যাখ্যা: ০.৬ × ০.১৩ = ০.০৭৮।"},
+{q:"০.৩২ × ০.৪ = কত?", opts:["০.৬৪","০.১২৮","০.০১২৮","১.২৮"], ans:1, exp:"ব্যাখ্যা: ০.৩২ × ০.৪ = ০.১২৮।"},
+{q:"০.২১ ÷ ৭ = কত?", opts:["০.০৩","০.৩","৩","০.০০৩"], ans:0, exp:"ব্যাখ্যা: ০.২১ ÷ ৭ = ০.০৩।"},
+{q:"০.০০৫ ÷ ৫ = কত?", opts:["০.০১","০.০০১","০.১","১"], ans:1, exp:"ব্যাখ্যা: ০.০০৫ ÷ ৫ = ০.০০১।"},
+{q:"০.০৭২ ÷ ৯ = কত?", opts:["০.০০৪","০.০০৮","০.০৮","০.৮"], ans:1, exp:"ব্যাখ্যা: ০.০৭২ ÷ ৯ = ০.০০৮।"},
+{q:"০.৩ ÷ ৩ = কত?", opts:["০.০১","০.১","০.০০১","১"], ans:1, exp:"ব্যাখ্যা: ০.৩ ÷ ৩ = ০.১।"},
+{q:"৪.৯২ ÷ ৬ = কত?", opts:["৮.২","০.৮২","০.০৮২","০.০০৮২"], ans:1, exp:"ব্যাখ্যা: ৪.৯২ ÷ ৬ = ০.৮২।"},
+{q:"২.৫ ÷ ২৫ = কত?", opts:["০.০১","০.০০১","১","০.১"], ans:3, exp:"ব্যাখ্যা: ২.৫ ÷ ২৫ = ০.১।"},
+{q:"১৬.২ ÷ ১২ = কত?", opts:["১.৩৫","১.৪৫","১.২৫","১.৫৫"], ans:0, exp:"ব্যাখ্যা: ১৬.২ ÷ ১২ = ১.৩৫।"},
+{q:"২৬.২৬ ÷ ১৩ = কত?", opts:["২.২","২.০২","০.২২","২.০২"], ans:1, exp:"ব্যাখ্যা: ২৬.২৬ ÷ ১৩ = ২.০২।"},
+{q:"৫৯.৭৬ ÷ ৪৮ = কত?", opts:["১২.৪৫","১২৪.৫","১.২৪৫","০.১২৪৫"], ans:2, exp:"ব্যাখ্যা: ৫৯.৭৬ ÷ ৪৮ = ১.২৪৫।"},
+{q:"১২.৩ ÷ ১২ = কত?", opts:["১.০২৫","১০.২৫","১০২.৫","০.১০২৫"], ans:0, exp:"ব্যাখ্যা: ১২.৩ ÷ ১২ = ১.০২৫।"},
+{q:"০.১ কে ১০ দ্বারা ভাগ করলে কত হবে?", opts:["০.১০","১","১০","০.০১"], ans:3, exp:"ব্যাখ্যা: ০.১ ÷ ১০ = ০.০১।"},
+{q:"২১.৩ ÷ ১০ = কত?", opts:["২১৩","২.১৩","০.৩১৩","০.০২১৩"], ans:1, exp:"ব্যাখ্যা: ২১.৩ ÷ ১০ = ২.১৩।"},
+{q:"৩৭ ÷ ১০০ = কত?", opts:["৩.৭","০.০৩৭","০.০০৩৭","০.৩৭"], ans:3, exp:"ব্যাখ্যা: ৩৭ ÷ ১০০ = ০.৩৭।"},
+{q:"৮.৭ ÷ ১০০ = কত?", opts:["০.০৮৭","০.৮৭০","৮৭","৮৭০"], ans:0, exp:"ব্যাখ্যা: ৮.৭ ÷ ১০০ = ০.০৮৭।"},
+{q:"৩৮.৪৬৯ ÷ ১০০ = কত?", opts:["৩৮৪.৬৯","৩৮৪৬.৯০","৩.৮৪৬৯","০.৩৮৪৬৯"], ans:3, exp:"ব্যাখ্যা: ৩৮.৪৬৯ ÷ ১০০ = ০.৩৮৪৬৯।"}
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const qText = document.getElementById('q-text');
+const optionsBox = document.getElementById('options-box');
+const explanation = document.getElementById('explanation');
+const nextBtn = document.getElementById('next-btn');
+const progress = document.getElementById('progress');
+const scoreLive = document.getElementById('score-live');
+const container = document.getElementById('quiz-container');
+
+function loadQuestion() {
+    answered = false;
+    explanation.style.display = 'none';
+    nextBtn.style.display = 'none';
+    const item = questions[current];
+    progress.textContent = `প্রশ্ন ${toBn(current + 1)} / ৫৪`;
+    scoreLive.textContent = `স্কোর: ${toBn(score)}`;
+    qText.textContent = item.q;
+    optionsBox.innerHTML = '';
+    item.opts.forEach((opt, idx) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.textContent = opt;
+        div.onclick = () => selectAnswer(idx);
+        optionsBox.appendChild(div);
+    });
+}
+
+function toBn(num) {
+    const bn = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+    return String(num).split('').map(d => bn[d] || d).join('');
+}
+
+function selectAnswer(idx) {
+    if (answered) return;
+    answered = true;
+    const item = questions[current];
+    const opts = optionsBox.children;
+    for (let i = 0; i < opts.length; i++) {
+        opts[i].classList.add('disabled');
+        if (i === item.ans) opts[i].classList.add('correct');
+        else if (i === idx) opts[i].classList.add('wrong');
+    }
+    if (idx === item.ans) score++;
+    scoreLive.textContent = `স্কোর: ${toBn(score)}`;
+    explanation.textContent = item.exp;
+    explanation.style.display = 'block';
+    nextBtn.style.display = 'inline-block';
+    nextBtn.textContent = (current === questions.length - 1) ? 'ফলাফল দেখুন' : 'পরবর্তী প্রশ্ন';
+}
+
+nextBtn.onclick = () => {
+    current++;
+    if (current < questions.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+};
+
+function showResult() {
+    const percent = Math.round((score / questions.length) * 100);
+    container.innerHTML = `
+        <div class="result-box">
+            <h2>কুইজ শেষ হয়েছে!</h2>
+            <p>তোমার স্কোর: ${toBn(score)} / ${toBn(questions.length)} (${toBn(percent)}%)</p>
+            <button class="restart-btn" id="restart-btn">আবার শুরু করি</button>
+        </div>
+    `;
+    document.getElementById('restart-btn').onclick = () => {
+        current = 0; score = 0;
+        location.reload();
+    };
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
